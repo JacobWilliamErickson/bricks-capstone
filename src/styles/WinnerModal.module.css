@@ -1,0 +1,55 @@
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+    background: #3f3f3f3a;
+  }
+  .modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 5vh;
+    left: 10%;
+    width: 100%;
+    z-index: 100;
+    overflow: hidden;
+  }
+  
+  .header {
+    margin: 10px;
+    background: #868686;
+    padding: 1rem;
+    color: #232323;
+  }
+  
+  .header h2 {
+    color: #232323;
+  }
+  
+  .content {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .content img{
+    width: 200px
+  }
+  
+  .actions {
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  @media (min-width: 768px) {
+    .modal {
+      left: calc(50% - 20rem);
+      width: 40rem;
+    }
+  }
