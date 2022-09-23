@@ -8,7 +8,6 @@
     text-align: center;
     display: inline-block;
     margin-top: 40px;
-    margin-bottom: 50px;
     margin-left: 80px;
   }
   ._3dbox {
@@ -30,39 +29,41 @@
     line-height: 250px;
   }
   .front {
-    width: 300px;
-    height: 300px;
-    transform: translate3d(0, 0, 150px);
+    width: 200px;
+    height: 200px;
+    transform: translate3d(0, 0, 100px);
   }
   .top {
-    width: 300px;
-    height: 300px;
-    transform: rotateX(90deg) translate3d(0, 0, 150px);
+    width: 200px;
+    height: 200px;
+    transform: rotateX(90deg) translate3d(0, 0, 100px);
   }
   .bottom {
-    word-wrap:break-word;
-    width: 300px;
-    height: 300px;
-    transform: rotateX(-90deg) translate3d(0, 0, 130px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    transform: rotateX(-90deg) translate3d(0, 0, 100px);
   }
   .left {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     left: 50%;
     margin-left: -125px;
-    transform: rotateY(-90deg) translate3d(0, 0, 150px);
+    transform: rotateY(-90deg) translate3d(0, 0, 100px);
   }
   .right {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     left: 50%;
     margin-left: -125px;
-    transform: rotateY(90deg) translate3d(0, 0, 150px);
+    transform: rotateY(90deg) translate3d(0, 0, 100px);
   }
   .back {
-    width: 300px;
-    height: 300px;
-    transform: rotateY(180deg) translate3d(0, 0, 150px);
+    width: 200px;
+    height: 200px;
+    transform: rotateY(180deg) translate3d(0, 0, 100px);
   }
 
 
@@ -84,8 +85,6 @@
   }
   .bottom h1{
     word-wrap:break-word;
-    background-size: auto 100%;
-    background-size:cover;
   }
   .back img {
     background-size: auto 100%;
@@ -107,24 +106,23 @@
   transform: rotateY(110deg)translate3d(0,0,50px);
 }
 #radio-right:checked ~ .space3d ._3dbox {
-  transform: rotateY(250deg) translate3d(-100px,0,-50px);
+  transform: rotateY(300deg) translate3d(-100px,0,-50px);
 }
 #radio-bottom:checked ~ .space3d ._3dbox {
   transform: rotateX(90deg)translate3d(0,-50px,0);
 }
 #radio-front:checked ~ .space3d ._3dbox {
-  transform: rotateX(360deg);
+  transform: rotateY(390deg);
 }
 #radio-top:checked ~ .space3d ._3dbox {
   transform: rotateX(270deg);
 }
 #radio-back:checked ~ .space3d ._3dbox {
-  transform: rotateY(190deg) translate(-110px);
+  transform: rotateY(200deg) translate(-120px);
 }
 .seperator{
-  margin-bottom: 30px;
+  margin-bottom: 0px;
 }
 .text{
-  word-wrap: break-word;
-  background-color: rgb(185, 228, 214);
+
 }

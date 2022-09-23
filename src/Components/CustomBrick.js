@@ -20,23 +20,23 @@ const CustomBrick = ({ img1, img2, img3, img4, img5, text }) => {
   const setImg = (src) => {
     if (alt=='front'){
       setFront(src);
-      localStorage.setItem('brick1', JSON.stringify(src));
+      localStorage.setItem('face1', JSON.stringify(src));
     }
     else if (alt==='top'){
       setTop(src);
-      localStorage.setItem('brick2', JSON.stringify(src));
+      localStorage.setItem('face2', JSON.stringify(src));
     }
     else if (alt==='left'){
       setLeft(src);
-      localStorage.setItem('brick3', JSON.stringify(src));
+      localStorage.setItem('face3', JSON.stringify(src));
     }
     else if (alt==='right'){
       setRight(src);
-      localStorage.setItem('brick4', JSON.stringify(src));
+      localStorage.setItem('face4', JSON.stringify(src));
     }
     else if (alt==='back'){
       setBack(src);
-      localStorage.setItem('brick5', JSON.stringify(src));
+      localStorage.setItem('face5', JSON.stringify(src));
     }
 
     setFace(null)
@@ -52,13 +52,14 @@ const CustomBrick = ({ img1, img2, img3, img4, img5, text }) => {
       isBrick={true}/>}
 
 
+
       <input type="radio" id={styles["radio-left"]} name="select-face" />
       <input type="radio" id={styles["radio-back"]} name="select-face" />
       <input type="radio" id={styles["radio-right"]} name="select-face" />
       <input type="radio" id={styles["radio-front"]} name="select-face" />
       <input type="radio" id={styles["radio-top"]} name="select-face" />
-      <input type="radio" id={styles["radio-bottom"]} name="select-face" />
       <input type="radio" id={styles["radio-default"]} name="select-face" />
+      <input type="radio" id={styles["radio-bottom"]} name="select-face" />
       <div className="separator"></div>
       <div className={styles.space3d}>
         <div className={styles._3dbox}>

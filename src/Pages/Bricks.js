@@ -1,4 +1,5 @@
 import Layout from "../Components/Layout"
+import Select from "react-select"
 import { useState,useEffect } from "react"
 import CustomBrick from "../Components/CustomBrick"
 import CustomCube from "../Components/CustomCube"
@@ -7,19 +8,33 @@ import styles from "../styles/BrickPage.module.css";
 const Bricks = () => {
   const [text,setText]=useState("text")
   const [brickshow, setbrickshow] = useState(true)
-  let cube1 = JSON.parse(localStorage.getItem('cube1'))
-  let cube2 = JSON.parse(localStorage.getItem('cube2'))
-  let cube3 = JSON.parse(localStorage.getItem('cube3'))
-  let cube4 = JSON.parse(localStorage.getItem('cube4'))
-  let cube5 = JSON.parse(localStorage.getItem('cube5'))
+  const style1 = {
+  };
+  const style2 = {
+    backgroundColor:'#ECDEC9',
+  };
+  const style3 = {
+    backgroundColor:'#545454',
+    color:"whitesmoke",
+  };
+  const [style, setStyle] = useState(style1)
+  const options = [
+    { value: style1, label: 'White' },
+    { value: style2, label: 'Tan' },
+    { value: style3, label: 'Black' },
+  ]
   let storedtext = JSON.parse(localStorage.getItem('text'))
-  let brick1 = JSON.parse(localStorage.getItem('brick1'))
-  let brick2 = JSON.parse(localStorage.getItem('brick2'))
-  let brick3 = JSON.parse(localStorage.getItem('brick3'))
-  let brick4 = JSON.parse(localStorage.getItem('brick4'))
-  let brick5 = JSON.parse(localStorage.getItem('brick5'))
+  let face1 = JSON.parse(localStorage.getItem('face1'))
+  let face2 = JSON.parse(localStorage.getItem('face2'))
+  let face3 = JSON.parse(localStorage.getItem('face3'))
+  let face4 = JSON.parse(localStorage.getItem('face4'))
+  let face5 = JSON.parse(localStorage.getItem('face5'))
   let changehandler = ()=>{
     setbrickshow(!brickshow)
+  }
+  let selecthandler = (e)=>{
+    setStyle(e.value)
+    console.log(style)
   }
     useEffect(() => {
       storedtext? setText(storedtext): setText("enter text here")
@@ -27,16 +42,12 @@ const Bricks = () => {
     }, [storedtext])
     
   let restartHandler = ()=>{
-    localStorage.removeItem('cube1')
-    localStorage.removeItem('cube2')
-    localStorage.removeItem('cube3')
-    localStorage.removeItem('cube4')
-    localStorage.removeItem('cube5')
-    localStorage.removeItem('brick1')
-    localStorage.removeItem('brick2')
-    localStorage.removeItem('brick3')
-    localStorage.removeItem('brick4')
-    localStorage.removeItem('brick5')
+    localStorage.removeItem('face1')
+    localStorage.removeItem('face2')
+    localStorage.removeItem('face3')
+    localStorage.removeItem('face4')
+    localStorage.removeItem('face5')
+    localStorage.removeItem('text')
     window.location.reload(false);
   }
   return (
@@ -44,33 +55,37 @@ const Bricks = () => {
       <div className={styles.page}>
         { brickshow ?
         <CustomBrick
-        img1={brick1? brick1: ""}
-        img2={brick2? brick2: ""}
-        img3={brick3? brick3: ""}
-        img4={brick4? brick4: ""}
-        img5={brick5? brick5: ""}
+        img1={face1? face1: ""}
+        img2={face2? face2: ""}
+        img3={face3? face3: ""}
+        img4={face4? face4: ""}
+        img5={face5? face5: ""}
         text={text}
         />
           :               
          <CustomCube
-        img1={cube1? cube1: ""}
-        img2={cube2? cube2: ""}
-        img3={cube3? cube3: ""}
-        img4={cube4? cube4: ""}
-        img5={cube5? cube5: ""}
-        text={text}
+         img1={face1? face1: ""}
+         img2={face2? face2: ""}
+         img3={face3? face3: ""}
+         img4={face4? face4: ""}
+         img5={face5? face5: ""}
+         text={text}
+         style = {style}
          />}
          <div className={styles.content}>
          <div className={styles.button}>
     {!brickshow ? <Button onClick={changehandler}> Change to Brick </Button> : <Button onClick={changehandler}> Change to Cube</Button>}
           <Button onClick={restartHandler}> Restart</Button>
          </div>
-         <div>
-         <input  value={text} onChange= 
+         <div className={styles.textBlock}>
+          <h3>Text Block</h3>
+         <textarea  value={text} onChange= 
          { e => {setText(e.target.value)
           
-            }} />
+         }} />
+          
            <Button onClick={()=>localStorage.setItem('text', JSON.stringify(text))}>Save</Button>
+           <Select options={options} onChange={selecthandler}/> 
 
          </div>
          </div>

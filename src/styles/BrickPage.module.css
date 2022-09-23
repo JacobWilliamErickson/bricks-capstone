@@ -1,13 +1,14 @@
 .page{
     display: flex;
     flex-direction: column;
+    margin-right: 100px;
+    margin-left: auto;
 }
 .button{
-    margin-top: 50px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
 }
 .content{
     display: flex;
@@ -16,4 +17,12 @@
 }
 .content Button {
     margin:5px;
+}
+.textBlock {
+    width: 80vw;
+    padding: 15px;
+    border: 1px solid rgb(130, 130, 130);
+    border-radius: 15px;
+    margin-bottom: 200px;
+    margin-top: 50px;
 }
