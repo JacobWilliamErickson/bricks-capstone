@@ -2,13 +2,8 @@ import React from "react";
 import { useState, useEffect} from "react";
 import styles from "../styles/CustomCube.module.css";
 import EditModal from "./EditModal";
-const CustomCube = ({ img1, img2, img3, img4, img5, text, style }) => {
+const CustomCube = ({ img1, img2, img3, img4, img5, img6, setFront, setTop, setLeft, setRight,setBack,setBottom}) => {
   const [Face, setFace] = useState("");
-  const [Front, setFront] = useState(img1);
-  const [Top, setTop] = useState(img2);
-  const [Left, setLeft] = useState(img3);
-  const [Right, setRight] = useState(img4);
-  const [Back, setBack] = useState(img5);
   const[alt,setAlt]=useState(null)
   const handleDoubleClick = (e) => {
     setFace(e.target.src);
@@ -32,13 +27,19 @@ const CustomCube = ({ img1, img2, img3, img4, img5, text, style }) => {
     }
     else if (alt==='right'){
       setRight(src);
+      console.log("fired")
       localStorage.setItem('face4', JSON.stringify(src));
     }
     else if (alt==='back'){
       setBack(src);
+      console.log("fired")
       localStorage.setItem('face5', JSON.stringify(src));
     }
-
+    else if (alt==='bottom'){
+      setBottom(src);
+      console.log("fired")
+      localStorage.setItem('face6', JSON.stringify(src));
+    }
     setFace(null)
   };
 
@@ -68,39 +69,42 @@ const CustomCube = ({ img1, img2, img3, img4, img5, text, style }) => {
       <div className={styles.space3d}>
         <div className={styles._3dbox}>
           <img
-            src={`${Front}`}
+            src={`${img1}`}
             alt="front"
             value="front"
             className={`${styles.front} ${styles.threedface}`}
             onDoubleClick={handleDoubleClick}
             />
           <img
-            src={`${Top}`}
+            src={`${img2}`}
             alt="top"
             value="Top"
             className={`${styles.top} ${styles.threedface}`}
             onDoubleClick={handleDoubleClick}
             ></img>
-          <div className={`${styles.bottom} ${styles.threedface}`}>
-          <p style={style}  className={`${styles.text}`}>
-            {text}
-            </p> </div>
+           <img
+            src={`${img6}`}
+            alt="bottom"
+            value="Bottom"
+            className={`${styles.bottom} ${styles.threedface}`}
+            onDoubleClick={handleDoubleClick}
+          ></img>
           <img
-            src={`${Left}`}
+            src={`${img3}`}
             alt="left"
             value="Left"
             className={`${styles.left} ${styles.threedface}`}
             onDoubleClick={handleDoubleClick}
           ></img>
           <img
-            src={`${Right}`}
+            src={`${img4}`}
             alt="right"
             value="Right"
             className={`${styles.right} ${styles.threedface}`}
             onDoubleClick={handleDoubleClick}
           ></img>
           <img
-            src={`${Back}`}
+            src={`${img5}`}
             alt="back"
             value="Back"
             className={`${styles.back} ${styles.threedface}`}

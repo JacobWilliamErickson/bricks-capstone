@@ -4,11 +4,12 @@
     justify-content: center;
     perspective: 1000px;
     width: 250px;
-    height: 250px;
+    height: 80px;
     text-align: center;
     display: inline-block;
-    margin-top: 40px;
-    margin-left: 80px;
+    margin-bottom: 0px;
+    margin-top: 30px;
+    margin-left: 170px;
   }
   ._3dbox {
     display: flex;
@@ -18,7 +19,7 @@
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transform: rotateX(-15deg) rotateY(30deg) translate(0px);
+    transform: rotateX(-15deg) rotateY(30deg) translate3d(-20px,-50px,-20px);
   }
   .threedface {
     overflow: hidden;
@@ -46,7 +47,7 @@
     height: 200px;
     transform: rotateX(-90deg) translate3d(0, 0, 100px);
   }
-  .left {
+  .left { 
     width: 200px;
     height: 200px;
     left: 50%;
@@ -103,26 +104,26 @@
     display: flex;
 }
 #radio-left:checked ~ .space3d ._3dbox {
-  transform: rotateY(110deg)translate3d(0,0,50px);
+  transform: rotateY(110deg)translate3d(20px,-50px,-50px);
 }
 #radio-right:checked ~ .space3d ._3dbox {
-  transform: rotateY(300deg) translate3d(-100px,0,-50px);
+  transform: rotateY(300deg) translate3d(-60px,-40px,-10px);
 }
 #radio-bottom:checked ~ .space3d ._3dbox {
-  transform: rotateX(90deg)translate3d(0,-50px,0);
+  transform: rotateX(80deg)translate3d(0,-50px,0);
 }
 #radio-front:checked ~ .space3d ._3dbox {
-  transform: rotateY(390deg);
+  transform: rotateY(390deg)translate3d(0px,-50px,-30px);
 }
 #radio-top:checked ~ .space3d ._3dbox {
-  transform: rotateX(270deg);
+  transform: rotateX(260deg);
 }
 #radio-back:checked ~ .space3d ._3dbox {
-  transform: rotateY(200deg) translate(-120px);
+  transform: rotateY(200deg) translate3d(60px,-40px,-20px);
 }
 .seperator{
   margin-bottom: 0px;
 }
 .text{
-
+  width: 100%;
 }

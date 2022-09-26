@@ -1,28 +1,76 @@
-.page{
-    display: flex;
-    flex-direction: column;
-    margin-right: 100px;
-    margin-left: auto;
+.page {
+  display: flex;
+  flex-direction: column;
+  margin-right: 100px;
+  margin-left: auto;
 }
-.button{
-    display: flex;
-    align-items: flex-start;
-    width: 100%;
-    justify-content: flex-start;
+.button {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  justify-content: flex-start;
 }
-.content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .content Button {
-    margin:5px;
+  margin: 5px;
 }
 .textBlock {
-    width: 80vw;
-    padding: 15px;
-    border: 1px solid rgb(130, 130, 130);
-    border-radius: 15px;
-    margin-bottom: 200px;
-    margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgb(130, 130, 130);
+  border-radius: 15px;
+  margin-bottom: 150px;
+  margin-top: 5px;
+}
+.textBlock textarea{
+  width: 250px;
+  height: 100px;
+}
+.preview{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 319px;
+  height: 240px;
+  border: 1px solid black;
+  overflow-wrap: break-word;
+}
+.cubepreview{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 240px;
+  height: 240px;
+  border: 1px solid black;
+  overflow-wrap: break-word;
+}
+.text{
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  margin: 10px;
+}
+.textBlockSelect{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+.textBlockSelect p {
+  text-align: center;
+}
+.cubepreview p, .preview p {
+  text-align: center;
+font-size: xx-large;
+font-weight: bold;
 }
