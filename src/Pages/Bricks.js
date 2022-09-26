@@ -39,7 +39,7 @@ const Bricks = () => {
   let face4 = JSON.parse(localStorage.getItem("face4"));
   let face5 = JSON.parse(localStorage.getItem("face5"));
   let face6 = JSON.parse(localStorage.getItem("face6"));
-
+  let cart = JSON.parse(localStorage.getItem("cart"));
   
   const [Front, setFront] = useState(face1 ? face1 : "");
   const [Top, setTop] = useState(face2 ? face2 : "");
@@ -56,7 +56,6 @@ const Bricks = () => {
     console.log(dom);
     DomToImage.toPng(dom)
       .then(function (dataUrl) {
-        let src = JSON.stringify(dataUrl)
         localStorage.setItem("face6",  JSON.stringify(dataUrl));
         setBottom(dataUrl)
       })
@@ -87,6 +86,28 @@ const Bricks = () => {
       setTop(null)
       setBottom(null)
   };
+  let cartHandler = () =>{
+        if(face1 && face2 && face3 &&face4 && face5 && face6){
+              const product = {
+                front:face1,
+                top:face2,
+                left:face3,
+                right:face4,
+                back:face5,
+                bottom:face6
+              }
+              console.log(JSON.stringify(product.right))
+              if (cart){localStorage.setItem("cart",JSON.stringify(product))}
+              else {
+                localStorage.setItem("cart",JSON.stringify(product))
+              }
+
+        }
+        else {
+          console.log('cube incomplete')
+        }
+
+  }
   return (
     <Layout>
       <div className={styles.page}>
@@ -128,6 +149,7 @@ const Bricks = () => {
             ) : (
               <Button onClick={changehandler}> Change to Cube</Button>
             )}
+           <Button onClick={cartHandler}> Add to Cart</Button>
             <Button onClick={restartHandler}> Restart</Button>
           </div>
           <div className={styles.textBlock}>
