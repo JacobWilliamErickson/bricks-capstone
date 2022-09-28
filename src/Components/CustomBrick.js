@@ -1,5 +1,4 @@
 import React from "react";
-import DomToImage from "dom-to-image";
 import { useState} from "react";
 import styles from "../styles/CustomBrick.module.css";
 import EditModal from "./EditModal";

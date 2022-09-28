@@ -6,15 +6,11 @@ import CustomBrick from "../Components/CustomBrick";
 import CustomCube from "../Components/CustomCube";
 import Button from "../UI/Button";
 import styles from "../styles/BrickPage.module.css";
-
-
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, increaseID } from "../redux/slices/cartslice";
 const Bricks = () => {
-  
-  
-  
-  
-  
-  
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
   const preview = useRef(null);
   const [text, setText] = useState("text");
   const [brickshow, setbrickshow] = useState(true);
@@ -39,14 +35,13 @@ const Bricks = () => {
   let face4 = JSON.parse(localStorage.getItem("face4"));
   let face5 = JSON.parse(localStorage.getItem("face5"));
   let face6 = JSON.parse(localStorage.getItem("face6"));
-  let cart = JSON.parse(localStorage.getItem("cart"));
   
-  const [Front, setFront] = useState(face1 ? face1 : "");
-  const [Top, setTop] = useState(face2 ? face2 : "");
-  const [Left, setLeft] = useState(face3 ? face3 : "");
-  const [Right, setRight] = useState(face4 ? face4 : "");
-  const [Back, setBack] = useState(face5 ? face5 : "");
-  const [Bottom, setBottom] = useState(face6 ? face6 : "");
+  const [Front, setFront] = useState(face1 ? face1 : "/brickstarter.png");
+  const [Top, setTop] = useState(face2 ? face2 : "/brickstarter.png");
+  const [Left, setLeft] = useState(face3 ? face3 : "/squarestarter.png");
+  const [Right, setRight] = useState(face4 ? face4 : "/squarestarter.png");
+  const [Back, setBack] = useState(face5 ? face5 : "/brickstarter.png");
+  const [Bottom, setBottom] = useState(face6 ? face6 : "/brickstarter.png");
 
   let changehandler = () => {
     setbrickshow(!brickshow);
@@ -56,8 +51,8 @@ const Bricks = () => {
     console.log(dom);
     DomToImage.toPng(dom)
       .then(function (dataUrl) {
-        localStorage.setItem("face6",  JSON.stringify(dataUrl));
-        setBottom(dataUrl)
+        localStorage.setItem("face6", JSON.stringify(dataUrl));
+        setBottom(dataUrl);
       })
       .catch(function (error) {
         console.error("oops, something went wrong!", error);
@@ -79,35 +74,43 @@ const Bricks = () => {
     localStorage.removeItem("face4");
     localStorage.removeItem("face5");
     localStorage.removeItem("face6");
-      setFront(null)
-      setBack(null)
-      setRight(null)
-      setLeft(null)
-      setTop(null)
-      setBottom(null)
+    setFront("/brickstarter.png");
+    setBack("/brickstarter.png");
+    setRight("/squarestarter.png");
+    setLeft("/squarestarter.png");
+    setTop("/brickstarter.png");
+    setBottom("/brickstarter.png");
   };
-  let cartHandler = () =>{
-        if(face1 && face2 && face3 &&face4 && face5 && face6){
-              const product = {
-                front:face1,
-                top:face2,
-                left:face3,
-                right:face4,
-                back:face5,
-                bottom:face6
-              }
-              console.log(JSON.stringify(product.right))
-              if (cart){localStorage.setItem("cart",JSON.stringify(product))}
-              else {
-                localStorage.setItem("cart",JSON.stringify(product))
-              }
-
-        }
-        else {
-          console.log('cube incomplete')
-        }
-
-  }
+  let cartHandler = () => {
+    let type;
+    let price;
+    if (brickshow) {
+      type = "brick";
+      price = 5;
+    } else if (brickshow === false) {
+      type = "cube";
+      price = 7;
+    }
+    if (face1 && face2 && face3 && face4 && face5 && face6) {
+      const product = {
+        type: type,
+        front: face1,
+        top: face2,
+        left: face3,
+        right: face4,
+        back: face5,
+        bottom: face6,
+        price: price,
+        quantity: 1,
+        id: cart.id,
+      };
+      console.log("adding");
+      dispatch(addToCart(product))
+      dispatch(increaseID())
+    } else {
+      console.log("cube incomplete");
+    }
+  };
   return (
     <Layout>
       <div className={styles.page}>
@@ -119,27 +122,27 @@ const Bricks = () => {
             img4={Right}
             img5={Back}
             img6={Bottom}
-            setFront = {setFront}
-            setTop = {setTop}
-            setLeft = {setLeft}
-            setRight = {setRight}
-            setBack = {setBack}
-            setBottom = {setBottom}
+            setFront={setFront}
+            setTop={setTop}
+            setLeft={setLeft}
+            setRight={setRight}
+            setBack={setBack}
+            setBottom={setBottom}
           />
         ) : (
           <CustomCube
-          img1={Front}
-          img2={Top}
-          img3={Left}
-          img4={Right}
-          img5={Back}
-          img6={Bottom}
-            setFront = {setFront}
-            setTop = {setTop}
-            setLeft = {setLeft}
-            setRight = {setRight}
-            setBack = {setBack}
-            setBottom = {setBottom}
+            img1={Front}
+            img2={Top}
+            img3={Left}
+            img4={Right}
+            img5={Back}
+            img6={Bottom}
+            setFront={setFront}
+            setTop={setTop}
+            setLeft={setLeft}
+            setRight={setRight}
+            setBack={setBack}
+            setBottom={setBottom}
           />
         )}
         <div className={styles.content}>
@@ -149,7 +152,7 @@ const Bricks = () => {
             ) : (
               <Button onClick={changehandler}> Change to Cube</Button>
             )}
-           <Button onClick={cartHandler}> Add to Cart</Button>
+            <Button onClick={cartHandler}> Add to Cart</Button>
             <Button onClick={restartHandler}> Restart</Button>
           </div>
           <div className={styles.textBlock}>
