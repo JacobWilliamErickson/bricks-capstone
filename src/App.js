@@ -6,6 +6,7 @@ import Bricks from './Pages/Bricks';
 import Profile from './Pages/Profile';
 import Checkout from './Pages/Checkout';
 import Company from './Pages/Company';
+import Reset from './Pages/Reset';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css'
 function App() {
@@ -19,7 +20,7 @@ function App() {
       <Route path="/profile/checkout" element={<Checkout/>}/>
       <Route path="/company" element={<Company/>}/>
       <Route path="/profile" element={<Profile/>}/>
-
+      <Route path="/reset" element={<Reset/>}/>
     </Routes>
 
     </div>
