@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import {query,getDocs,collection,where,addDoc}  from "firebase/firestore";
+import {toast} from "react-toastify"
 import {
   GoogleAuthProvider,
   getAuth,
@@ -10,21 +11,15 @@ import {
   sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
-const { apiKey } = process.env;
-const { authDomain } = process.env;
-const { REACT_APP_PROJECTID } = process.env;
-const { storageBucket } = process.env;
-const { messagingSenderId } = process.env;
-const { appId } = process.env;
 const { measurementId } = process.env;
 const firebaseConfig = {
-  apiKey: `${apiKey}`,
-  projectId: `${REACT_APP_PROJECTID}`,
-  authDomain: `${authDomain}`,
-  storageBucket: `${storageBucket}`,
-  messagingSenderId: `${messagingSenderId}`,
-  appId: `${appId}`,
-  measurementId: `${measurementId}`,
+  apiKey: `${process.env.REACT_APP_APIKEY}`,
+  projectId: `${process.env.REACT_APP_PROJECTID}`,
+  authDomain: `${process.env.REACT_APP_AUTHDOMAIN}`,
+  storageBucket: `${process.env.REACT_APP_STORAGEBUCKET}`,
+  messagingSenderId: `${process.env.REACT_APP_MESSAGINGSENDERID}`,
+  appId: `${process.env.REACT_APP_APPID}`,
+  measurementId: `${process.env.REACT_APP_MEASUREMENTID}`,
 };
 
 const app = initializeApp(firebaseConfig);
@@ -53,21 +48,6 @@ const signInWithGoogle = async () => {
   }
 
 };
-const registerWithEmailAndPassword = async (name, email, password) => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-    await addDoc(collection(db, "users"), {
-      uid: user.uid,
-      name,
-      authProvider: "local",
-      email,
-    });
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
-};
 
 const sendPasswordReset = async (email) => {
   try {
@@ -81,12 +61,13 @@ const sendPasswordReset = async (email) => {
 
 const logout = () => {
   signOut(auth);
+  toast.info("Logged out! Thank you for visiting",{position: "bottom-center", autoClose:1000})
+  
 };
 
 export {
   auth,
   signInWithGoogle,
-  registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
 };

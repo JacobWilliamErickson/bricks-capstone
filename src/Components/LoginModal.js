@@ -2,7 +2,9 @@ import React from "react";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 import classes from "../styles/LoginModal.module.css";
-
+import {toast} from "react-toastify"
+import { db} from "../firebase-config";
+import {query,getDocs,collection,where,addDoc}  from "firebase/firestore";
 import {
   GoogleAuthProvider,
   getAuth,
@@ -18,7 +20,7 @@ import {
 import "cropperjs/dist/cropper.css";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, signInWithGoogle,registerWithEmailAndPassword } from "../firebase-config";
+import { auth} from "../firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
 const LoginModal = (props) => {
   const [email, setEmail] = useState("");
@@ -34,6 +36,8 @@ const LoginModal = (props) => {
       await signInWithEmailAndPassword(auth, email, password);
       props.closelogin()
       console.log("success")
+      toast.success("Succesful Login! Welcome!",{position: "bottom-center", autoClose:1000})
+      props.checkout()
     } catch (err) {
       console.error(err);
       alert(err.message);
@@ -46,8 +50,29 @@ const LoginModal = (props) => {
   const signInWithGuest = ()=>{
     logInWithEmailAndPassword('brixandstixthecompany@gmail.com', "guestpassword")
     props.closelogin()
+    props.checkout()
   }
-  
+  //register
+
+  const registerWithEmailAndPassword = async (name, email, password) => {
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const user = res.user;
+      await addDoc(collection(db, "users"), {
+        uid: user.uid,
+        name,
+        authProvider: "local",
+        email,
+      }
+      );
+      toast.success("Succesfull Registration! Welcome!",{position: "bottom-center", autoClose:1000})
+      props.closelogin()
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
+  };
+
   const register = () => {
     if (!name) alert("Please enter name");
     registerWithEmailAndPassword(name, email, password);

@@ -55,6 +55,18 @@ width: auto;
 .gen h1{
     text-align: center;
 }
+.gen h3{
+    text-align: center;
+}
+.gen Link{
+    text-align: center;
+}
+.empty{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .titlesNumbers{
     display: flex;
     align-items: center;
