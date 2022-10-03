@@ -16,7 +16,7 @@
     position: fixed;
     top: 30vh;
     left: 10%;
-    width: 100%;
+    width: 100;
     height: 60vh;
     z-index: 100;
     overflow: hidden;
@@ -53,8 +53,8 @@
   
   @media (min-width: 768px) {
     .modal {
-      left: calc(50% - 20rem);
-      width: 40rem;
+      left: calc(50% - 30rem);
+      width: 60rem;
     }
   }
   .register {

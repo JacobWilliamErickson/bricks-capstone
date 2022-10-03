@@ -4,11 +4,22 @@ import { useState, useEffect, useRef } from "react";
 import DomToImage from "dom-to-image";
 import CustomBrick from "../Components/CustomBrick";
 import CustomCube from "../Components/CustomCube";
+import { v4 } from "uuid";
+import {toast} from "react-toastify"
+import { storage } from "../firebase-config";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  list,
+} from "firebase/storage";
 import Button from "../UI/Button";
 import styles from "../styles/BrickPage.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, increaseID } from "../redux/slices/cartslice";
 const Bricks = () => {
+  const [url, setUrl] = useState(null);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const preview = useRef(null);
@@ -35,7 +46,7 @@ const Bricks = () => {
   let face4 = JSON.parse(localStorage.getItem("face4"));
   let face5 = JSON.parse(localStorage.getItem("face5"));
   let face6 = JSON.parse(localStorage.getItem("face6"));
-  
+
   const [Front, setFront] = useState(face1 ? face1 : "/brickstarter.png");
   const [Top, setTop] = useState(face2 ? face2 : "/brickstarter.png");
   const [Left, setLeft] = useState(face3 ? face3 : "/squarestarter.png");
@@ -43,20 +54,21 @@ const Bricks = () => {
   const [Back, setBack] = useState(face5 ? face5 : "/brickstarter.png");
   const [Bottom, setBottom] = useState(face6 ? face6 : "/brickstarter.png");
 
+  
   let changehandler = () => {
     setbrickshow(!brickshow);
   };
-
+  
   function exportToPng(dom) {
     console.log(dom);
     DomToImage.toPng(dom)
-      .then(function (dataUrl) {
-        localStorage.setItem("face6", JSON.stringify(dataUrl));
-        setBottom(dataUrl);
-      })
-      .catch(function (error) {
-        console.error("oops, something went wrong!", error);
-      });
+    .then(function (dataUrl) {
+      localStorage.setItem("face6", JSON.stringify(dataUrl));
+      setBottom(dataUrl);
+    })
+    .catch(function (error) {
+      console.error("oops, something went wrong!", error);
+    });
   }
 
   let selecthandler = (e) => {
@@ -66,7 +78,7 @@ const Bricks = () => {
   useEffect(() => {
     storedtext ? setText(storedtext) : setText("enter text here");
   }, [storedtext]);
-
+  
   let restartHandler = () => {
     localStorage.removeItem("face1");
     localStorage.removeItem("face2");
@@ -81,7 +93,16 @@ const Bricks = () => {
     setTop("/brickstarter.png");
     setBottom("/brickstarter.png");
   };
-  let cartHandler = () => {
+  const folder = (v4())
+  const uploader = async (face) => {
+    const imageRef = ref(storage, `/${folder}/${v4()}`);
+    const bytes = new File([face], `${face}`, { type: "text/plain" });
+    const snapshot = await uploadBytes(imageRef, bytes);
+    const url = await getDownloadURL(snapshot.ref);
+    return url;
+  };
+  
+  let cartHandler = async () => {
     let type;
     let price;
     if (brickshow) {
@@ -92,21 +113,32 @@ const Bricks = () => {
       price = 7;
     }
     if (face1 && face2 && face3 && face4 && face5 && face6) {
+      toast.info("adding to cart please give one moment to load",{position: "bottom-center", autoClose:5000})
+      let front = await uploader(face1);
+      let top = await uploader(face2);
+      let left = await uploader(face3);
+      let right = await uploader(face4);
+      let back = await uploader(face5);
+      let bottom = await uploader(face6);
+      
+
       const product = {
+        folder:folder,
+        preview:face1,
         type: type,
-        front: face1,
-        top: face2,
-        left: face3,
-        right: face4,
-        back: face5,
-        bottom: face6,
+        front: front,
+        top: top,
+        left: left,
+        right: right,
+        back: back,
+        bottom: bottom,
         price: price,
         quantity: 1,
         id: cart.id,
       };
       console.log("adding");
-      dispatch(addToCart(product))
-      dispatch(increaseID())
+      dispatch(addToCart(product));
+      dispatch(increaseID());
     } else {
       console.log("cube incomplete");
     }

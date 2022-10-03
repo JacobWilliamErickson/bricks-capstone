@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
+import { getStorage } from "firebase/storage";
 import {query,getDocs,collection,where,addDoc}  from "firebase/firestore";
 import {toast} from "react-toastify"
 import {
@@ -64,7 +65,7 @@ const logout = () => {
   toast.info("Logged out! Thank you for visiting",{position: "bottom-center", autoClose:1000})
   
 };
-
+export const storage = getStorage(app);
 export {
   auth,
   signInWithGoogle,

@@ -10,7 +10,6 @@ export const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state,action) => {
-
       state.cartItems.push(action.payload)
       toast.success("added to cart",{position: "bottom-center", autoClose:1000})
     },

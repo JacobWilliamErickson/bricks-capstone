@@ -45,7 +45,7 @@ const EditModal = (props) => {
       <div style={{ width: "100%" }}>
         <Cropper
         className={classes.cropper}
-          style={{ height: 300, width: 400 }}
+          style={{ height: 375, width: 500 }}
           zoomTo={0.5}
           initialAspectRatio={r}
           preview=".img-preview"

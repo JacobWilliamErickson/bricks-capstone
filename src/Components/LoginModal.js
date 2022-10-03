@@ -34,9 +34,9 @@ const LoginModal = (props) => {
   const logInWithEmailAndPassword = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      props.closelogin()
       console.log("success")
       toast.success("Succesful Login! Welcome!",{position: "bottom-center", autoClose:1000})
+      props.closelogin()
       props.checkout()
     } catch (err) {
       console.error(err);
@@ -47,11 +47,19 @@ const LoginModal = (props) => {
     logInWithEmailAndPassword(email, password)
   }
   
-  const signInWithGuest = ()=>{
-    logInWithEmailAndPassword('brixandstixthecompany@gmail.com', "guestpassword")
+  const signInWithGuest = async ()=>{
+    try {
+     await logInWithEmailAndPassword('brixandstixthecompany@gmail.com', "guestpassword")
+     console.log("reaching")
     props.closelogin()
     props.checkout()
+    }
+  
+  catch (err) {
+    console.error(err);
+    alert(err.message);
   }
+}
   //register
 
   const registerWithEmailAndPassword = async (name, email, password) => {

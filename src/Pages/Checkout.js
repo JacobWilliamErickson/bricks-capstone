@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useSelector, useDispatch } from "react-redux";
+import { v4 } from "uuid";
+import axios from 'axios'
 import { db } from "../firebase-config";
 import Layout from "../Components/Layout";
 import { collection, getDocs, setDoc, doc } from "firebase/firestore";
@@ -26,6 +28,7 @@ import LoginModal from "../Components/LoginModal";
 import { Link } from "react-router-dom";
 
 const Checkout = () => {
+  
   const [user, loading, error] = useAuthState(auth);
   const [needslogin, setNeedslogin] = useState(false);
   const app = getApp();
@@ -33,11 +36,10 @@ const Checkout = () => {
     productsCollection: "products",
     customersCollection: "customers",
   });
+
+
   const dispatch = useDispatch();
-  const [orders, setOrders] = useState([]);
   const cart = useSelector((state) => state.cart);
-  const Ordersref = collection(db, "products");
-  const stripe = require;
   const [stripeCart, setStripeCart] = useState([]);
 
   const setCartHandler = () => {
@@ -51,8 +53,10 @@ const Checkout = () => {
       let cartobject = { price: priceID, quantity: cartItem.quantity };
       return cartobject;
     });
+
     setStripeCart([...cartObjects]);
   };
+
 
   useEffect(() => {
     setCartHandler();
@@ -62,44 +66,28 @@ const Checkout = () => {
     setCartHandler();
   }, [cart]);
 
-  const mypriceId1 = "price_1LnObAAV5tKMOK6lQBYw14Po";
-  const mypriceId2 = "price_1Ln9aVAV5tKMOK6lKFVsKx3Y";
-
-  // useEffect(() => {
-  //   const getOrders = async () => {
-  //     const data = await getDocs(Ordersref);
-  //     console.log(data);
-  //   };
-  //   getOrders();
-  // }, []);
 
   useEffect(() => {
     dispatch(getTotals());
   }, [cart, dispatch]);
+
+
   const LoginHandler = () => {
     setNeedslogin(false);
   };
 
-  const onCheckout2 = async () => {
-    if (user) {
-      const docRef = await db
-        .collection("customers")
-        .doc(user.uid)
-        .collection("checkout_sessions")
-        .add({
-          collect_shipping_address: true,
-          line_items: stripeCart,
-          success_url: window.location.origin,
-          cancel_url: window.location.origin,
-        });
-    } else {
-      setNeedslogin(true);
-    }
-  };
-
+  const orderNum = v4()
 
   const onCheckout = async () => {
+    console.log("firing")
     if (user) {
+      await setDoc(doc(db, "orders",`${orderNum}`), {
+        paymentConfirmed:false,
+        country: "USA",
+        cart:cart,
+        orderNumber:orderNum
+      });
+      console.log('got a user')
       const session = await createCheckoutSession(payments, {
         mode: "payment",
         line_items: stripeCart,
@@ -110,11 +98,18 @@ const Checkout = () => {
     }
   };
 
-
-
-
-
-
+  const onCheckout2 = async () => {
+    console.log("firing")
+      console.log('got a user')
+      const session = await createCheckoutSession(payments, {
+        collect_shipping_address: true,
+        mode: "payment",
+        line_items: stripeCart,
+        metadata:{orderNumber:orderNum}
+      });
+      window.location.assign(session.url);
+    } 
+console.log(cart)
   return (
     <div>
       {needslogin && (
@@ -135,16 +130,7 @@ const Checkout = () => {
                 <div className={styles.gen}>
                   <Card className={styles.personalcard}>
                     <div className={styles.photocontainer}>
-                      <div className={styles.photos}>
-                        <img src={cartItem.front}></img>
-                        <img src={cartItem.top}></img>
-                        <img src={cartItem.left}></img>
-                      </div>
-                      <div className={styles.photos}>
-                        <img src={cartItem.right}></img>
-                        <img src={cartItem.back}></img>
-                        <img src={cartItem.bottom}></img>
-                      </div>
+                        <img src={cartItem.preview}></img>
                     </div>
                     <div className={styles.cardContent}>
                       <p>Item: {cartItem.type}</p>

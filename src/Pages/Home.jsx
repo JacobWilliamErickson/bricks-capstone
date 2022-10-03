@@ -6,7 +6,7 @@ import styles from "../styles/Home.module.css";
 const Home = () => {
   return (
     <Layout>     
-      <div className={styles.main}>
+   <div className={styles.main}>
        <Brick 
     img1="/image3.JPG"
     img2="/image1.JPG"
@@ -15,22 +15,21 @@ const Home = () => {
     img5="/image4.JPG"
     text="Family Trip 2020"
     />
-
-    <Card className={styles.card}>
-        <div>
-          <p> Jake</p>
+    <hr />
+        <div className={styles.card}>
+          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+          <img src="brick-wall.png" alt="" />
         </div>
-    </Card>
-    <Card className={styles.card}>
-        <div>
-          <p> Jake</p>
+    <hr />
+    <div className={styles.card}>
+          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+          <img src="brick-wall.png" alt="" />
         </div>
-    </Card>
-    <Card className={styles.card}>
-        <div>
-          <p> Jake</p>
+    <hr />
+    <div className={styles.card}>
+          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+          <img src="brick-wall.png" alt="" />
         </div>
-    </Card>
       </div>
     </Layout>
   )

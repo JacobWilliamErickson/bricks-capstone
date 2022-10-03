@@ -7,4 +7,17 @@
 }
 .card{
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.card img{
+    height: 100px;
+}
+.card p {
+    width: 60%
+}
+.main hr{
+    background-color: rgb(214, 214, 214);
+    height: .25px;
+    width: 100%;
 }
