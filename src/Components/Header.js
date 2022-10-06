@@ -1,9 +1,9 @@
-import { useContext } from 'react'
 import { NavLink } from 'react-router-dom';
+import { useAuthState } from "react-firebase-hooks/auth";
 import styles from '../styles/Header.module.css'
-
+import {auth} from "../firebase-config";
 export default function Header() {
-    let authenticated = true;
+  const [user] = useAuthState(auth);
   return (
     <header className={styles.header}>
       <div className={styles.leftnav}>
@@ -23,7 +23,7 @@ export default function Header() {
 
       <nav>
         <ul>
-        {authenticated ? (
+        {user && user.uid===`${process.env.REACT_APP_USERID}` && (
             // If logged in
             <>
               <li>
@@ -31,9 +31,6 @@ export default function Header() {
                   <a>Company</a>
                 </NavLink>
               </li>
-            </>
-          ) : (
-            <>
             </>
           )}
           <li>

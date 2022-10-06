@@ -3,40 +3,33 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { v4 } from "uuid";
-import axios from 'axios'
 import { db } from "../firebase-config";
 import Layout from "../Components/Layout";
-import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import {setDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 import styles from "../styles/Checkout.module.css";
-import {
-  createCheckoutSession,
-  paymentintent,
-} from "@stripe/firestore-stripe-payments";
+import ShippingModal from "../Components/ShippingModal";
+import {createCheckoutSession,} from "@stripe/firestore-stripe-payments";
 import { getStripePayments } from "@stripe/firestore-stripe-payments";
-import { getProducts } from "@stripe/firestore-stripe-payments";
 import { getApp } from "@firebase/app";
 import { auth } from "../firebase-config";
-import {
-  increaseQ,
-  decreaseQ,
-  getTotals,
-  removeFromCart,
-} from "../redux/slices/cartslice";
+import {increaseQ,decreaseQ,getTotals,removeFromCart,} from "../redux/slices/cartslice";
 import LoginModal from "../Components/LoginModal";
 import { Link } from "react-router-dom";
 
+
+
 const Checkout = () => {
-  
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const [needslogin, setNeedslogin] = useState(false);
+  const [needsShipping, setNeedsShipping] = useState(false);
   const app = getApp();
   const payments = getStripePayments(app, {
     productsCollection: "products",
     customersCollection: "customers",
   });
-
 
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
@@ -57,7 +50,6 @@ const Checkout = () => {
     setStripeCart([...cartObjects]);
   };
 
-
   useEffect(() => {
     setCartHandler();
   }, []);
@@ -66,54 +58,79 @@ const Checkout = () => {
     setCartHandler();
   }, [cart]);
 
-
   useEffect(() => {
     dispatch(getTotals());
   }, [cart, dispatch]);
 
-
   const LoginHandler = () => {
     setNeedslogin(false);
   };
+  const ShippingHandler = () => {
+    setNeedslogin(false);
+  };
 
-  const orderNum = v4()
+  const orderNum = v4();
 
   const onCheckout = async () => {
-    console.log("firing")
-    if (user) {
-      await setDoc(doc(db, "orders",`${orderNum}`), {
-        paymentConfirmed:false,
-        country: "USA",
-        cart:cart,
-        orderNumber:orderNum
-      });
-      console.log('got a user')
-      const session = await createCheckoutSession(payments, {
-        mode: "payment",
-        line_items: stripeCart,
-      });
-      window.location.assign(session.url);
+    if (stripeCart.length > 0) {
+      if (user) {
+        setNeedsShipping(true);
+      } else {
+        setNeedslogin(true);
+      }
     } else {
-      setNeedslogin(true);
+      toast.error("Sorry cannot checkout. The cart is empty",{position:"top-center"})
+      console.log("Cart is empty");
     }
   };
 
-  const onCheckout2 = async () => {
-    console.log("firing")
-      console.log('got a user')
-      const session = await createCheckoutSession(payments, {
-        collect_shipping_address: true,
-        mode: "payment",
-        line_items: stripeCart,
-        metadata:{orderNumber:orderNum}
-      });
-      window.location.assign(session.url);
-    } 
-console.log(cart)
+  const onPayment2 = async (address) => {
+    let date = new Date().toJSON().slice(0, 10);
+    toast.success("Thank You, Now loading Secure Payment Page!",{position:"bottom-center"})
+    await setDoc(doc(db, "orders", `${orderNum}`), {
+      date:date,
+      address:address,
+      paymentConfirmed: false,
+      country: "USA",
+      cart: cart,
+      orderNumber: orderNum,
+      user: user.uid,
+    });
+    console.log("finished")
+    const session = await createCheckoutSession(payments, {
+      collect_shipping_address: true,
+      mode: "payment",
+      line_items: stripeCart,
+      metadata: { orderNumber: orderNum },
+    });
+    window.location.assign(session.url);
+  };
+
+  const needShipping = () => {
+    setNeedsShipping(true);
+  };
+  const onOkayShipping = () => {
+    setNeedsShipping(null);
+  };
+  const onOkayLogin = () => {
+    setNeedslogin(null);
+  };
   return (
     <div>
+      {needsShipping && (
+        <ShippingModal
+          closelogin={ShippingHandler}
+          checkout={onPayment2}
+          onOkay={onOkayShipping}
+        />
+      )}
       {needslogin && (
-        <LoginModal closelogin={LoginHandler} checkout={onCheckout2} />
+        <LoginModal
+          closelogin={LoginHandler}
+          checkout={onPayment2}
+          onOkay={onOkayLogin}
+          shipping={needShipping}
+        />
       )}
       <Layout>
         <div className={styles.main}>
@@ -130,7 +147,7 @@ console.log(cart)
                 <div className={styles.gen}>
                   <Card className={styles.personalcard}>
                     <div className={styles.photocontainer}>
-                        <img src={cartItem.preview}></img>
+                      <img src={`/${cartItem.type}.png`}className={styles.image}/> 
                     </div>
                     <div className={styles.cardContent}>
                       <p>Item: {cartItem.type}</p>

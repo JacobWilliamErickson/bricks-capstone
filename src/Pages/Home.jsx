@@ -1,8 +1,8 @@
 import React from 'react'
 import Layout from '../Components/Layout'
 import Brick from '../Components/Brick'
-import Card from '../UI/Card'
 import styles from "../styles/Home.module.css";
+import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <Layout>     
@@ -11,24 +11,34 @@ const Home = () => {
     img1="/image3.JPG"
     img2="/image1.JPG"
     img3="/image2.JPG"
-    img4="/image5right.JPG"
-    img5="/image4.JPG"
-    text="Family Trip 2020"
     />
     <hr />
         <div className={styles.card}>
-          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-          <img src="brick-wall.png" alt="" />
+          <div>
+            <h3>The Bricks and Cubes</h3>
+          <p> The Bricks (3 inches by 4 inches) and Cubes (3 inches by 3 inches) are our pride and joy. These foam core blocks are light weight, eyecatching and an awesome way to store your memories. Build a wall as you grow old of life events, vacations and any other images you have.</p>
+          <Link to={"/products/bricks"}> Start Designing Now</Link>
+
+          </div>
+          <img src="bricksample.jpg" alt="" />
         </div>
     <hr />
     <div className={styles.card}>
-          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-          <img src="brick-wall.png" alt="" />
+          <img src="3-piece-decorative.jpg" alt="" />
+
+          <div className={styles.three}>
+            <h3>The Three Piece </h3>
+          <p> Coming Soon! Design and Create your own three piece artwork on the light and easy to mount foam core </p>
+          </div>
         </div>
     <hr />
     <div className={styles.card}>
-          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-          <img src="brick-wall.png" alt="" />
+    <div>
+            <h3>The Classic  </h3>
+          <p> Coming Soon! Design and Create your own artwork on the light and easy to mount foam core. Get the look of Canvas at a fraction of the cost  </p>
+          </div>
+          <img src="figmaCanvass.jpg" alt="" />
+          <img src="figmaCanvas.jpg" alt="" />
         </div>
       </div>
     </Layout>

@@ -6,13 +6,8 @@ import {toast} from "react-toastify"
 import { db} from "../firebase-config";
 import {query,getDocs,collection,where,addDoc}  from "firebase/firestore";
 import {
-  GoogleAuthProvider,
-  getAuth,
-  signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
-  signOut,
 } from "firebase/auth";
 
 
@@ -36,8 +31,9 @@ const LoginModal = (props) => {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("success")
       toast.success("Succesful Login! Welcome!",{position: "bottom-center", autoClose:1000})
+      localStorage.setItem('email',JSON.stringify(email));
       props.closelogin()
-      props.checkout()
+      props.shipping()
     } catch (err) {
       console.error(err);
       alert(err.message);
@@ -50,9 +46,10 @@ const LoginModal = (props) => {
   const signInWithGuest = async ()=>{
     try {
      await logInWithEmailAndPassword('brixandstixthecompany@gmail.com', "guestpassword")
-     console.log("reaching")
+     localStorage.removeItem('email');
+     localStorage.removeItem('name');
     props.closelogin()
-    props.checkout()
+    props.shipping()
     }
   
   catch (err) {
@@ -64,6 +61,8 @@ const LoginModal = (props) => {
 
   const registerWithEmailAndPassword = async (name, email, password) => {
     try {
+      localStorage.setItem('email',JSON.stringify(email));
+      localStorage.setItem('name',JSON.stringify(name));
       const res = await createUserWithEmailAndPassword(auth, email, password);
       const user = res.user;
       await addDoc(collection(db, "users"), {
@@ -75,6 +74,7 @@ const LoginModal = (props) => {
       );
       toast.success("Succesfull Registration! Welcome!",{position: "bottom-center", autoClose:1000})
       props.closelogin()
+      props.shipping()
     } catch (err) {
       console.error(err);
       alert(err.message);
@@ -106,21 +106,21 @@ const LoginModal = (props) => {
           type="text"
           className={classes.register__textBox}
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onInput={(e) => setName(e.target.value)}
           placeholder="Full Name"
         />
         <input
           type="text"
           className={classes.register__textBox}
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onInput={(e) => setEmail(e.target.value)}
           placeholder="E-mail Address"
         />
         <input
           type="password"
           className={classes.register__textBox}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onInput={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
         <Button className={classes.register__btn} onClick={register}>

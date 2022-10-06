@@ -11,7 +11,9 @@ export default function Footer() {
         <div className={styles.footer}>
       <p>Copyright &copy; Jacob Erickson 2022</p>
         </div>
-      <div className={styles.break}></div>
+      <div className={styles.break}>
+
+      </div>
       <div className={styles.footer}>
       <p>
         <Link to='/about'>

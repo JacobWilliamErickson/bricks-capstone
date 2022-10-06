@@ -11,15 +11,12 @@ import {
   ref,
   uploadBytes,
   getDownloadURL,
-  listAll,
-  list,
 } from "firebase/storage";
 import Button from "../UI/Button";
 import styles from "../styles/BrickPage.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, increaseID } from "../redux/slices/cartslice";
 const Bricks = () => {
-  const [url, setUrl] = useState(null);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const preview = useRef(null);
@@ -86,6 +83,7 @@ const Bricks = () => {
     localStorage.removeItem("face4");
     localStorage.removeItem("face5");
     localStorage.removeItem("face6");
+    localStorage.removeItem("text");
     setFront("/brickstarter.png");
     setBack("/brickstarter.png");
     setRight("/squarestarter.png");
@@ -107,7 +105,7 @@ const Bricks = () => {
     let price;
     if (brickshow) {
       type = "brick";
-      price = 5;
+      price = 9;
     } else if (brickshow === false) {
       type = "cube";
       price = 7;
@@ -124,7 +122,6 @@ const Bricks = () => {
 
       const product = {
         folder:folder,
-        preview:face1,
         type: type,
         front: front,
         top: top,
@@ -140,6 +137,7 @@ const Bricks = () => {
       dispatch(addToCart(product));
       dispatch(increaseID());
     } else {
+      toast.error("The object does not have content for every side. Please double check then add again",{position:"top-center"})
       console.log("cube incomplete");
     }
   };

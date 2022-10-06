@@ -1,0 +1,29 @@
+.card{
+    background-color: antiquewhite;
+    padding: 10px;
+    width: 70vw;
+    margin: 5px;
+}
+.cardContainer{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.login input {
+    font-size: larger;
+}
+.login Button{
+    width: 100%;
+}
+.card div {
+    font-size: large;
+    font-weight: bold;
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../styles/Brick.module.css";
-const Brick = ({ img1, img2, img3, img4, img5, img6 }) => {
+const Brick = ({ img1, img2, img3}) => {
   return (
     <div className={styles.space3d}>
       <div className={styles._3dbox}>
@@ -14,25 +14,10 @@ const Brick = ({ img1, img2, img3, img4, img5, img6 }) => {
           alt="Top"
           className={`${styles.top} ${styles.threedface}`}
         ></img>
-        <img          
-         src={`${img6}`}
-          alt="Bottom"
-         className={`${styles.bottom} ${styles.threedface}`}>
-        </img>
         <img
           src={`${img3}`}
           alt="Left"
           className={`${styles.left} ${styles.threedface}`}
-        ></img>
-        <img
-          src={`${img4}`}
-          alt="Right"
-          className={`${styles.right} ${styles.threedface}`}
-        ></img>
-        <img
-          src={`${img5}`}
-          alt="Back"
-          className={`${styles.back} ${styles.threedface}`}
         ></img>
       </div>
     </div>
