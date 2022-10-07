@@ -68,6 +68,26 @@ const Bricks = () => {
     });
   }
 
+  function dataURLtoFile(dataurl, filename) {
+ 
+    var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), 
+        n = bstr.length, 
+        u8arr = new Uint8Array(n);
+        
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    
+    return new File([u8arr], filename, {type:mime});
+}
+
+
+
+
+
+
   let selecthandler = (e) => {
     setStyle(e.value);
     console.log(style);
@@ -94,7 +114,9 @@ const Bricks = () => {
   const folder = (v4())
   const uploader = async (face) => {
     const imageRef = ref(storage, `/${folder}/${v4()}`);
-    const bytes = new File([face], `${face}`, { type: "text/plain" });
+    console.log(folder)
+    const bytes = dataURLtoFile(face,`${face}`) 
+   // const bytes = new File([face], `${face}`, { type: "text/plain" });
     const snapshot = await uploadBytes(imageRef, bytes);
     const url = await getDownloadURL(snapshot.ref);
     return url;

@@ -80,6 +80,27 @@ const logoutHandler = ()=>{
                 <div>
                   Total Items Ordered: {orderItem.cart.cartTotalQuantity}
                 </div>
+                {orderItem.cart.cartItems.map((cartItem)=>(
+                  <div>
+                <div> Item {cartItem.id}:</div>
+                <div>-Quantity: {cartItem.quantity}</div>
+                <div>-Type: {cartItem.type}</div>
+                
+                <div className={styles.links}>-
+                <a href={cartItem.front} target="_blank">Front</a>
+                <a href={cartItem.left} target="_blank">Left</a>
+                <a href={cartItem.back} target="_blank">Back</a>
+                </div>
+                  <div className={styles.links}>-
+                <a href={cartItem.right} target="_blank">Right</a>
+                <a href={cartItem.top} target="_blank">Top</a>
+                <a href={cartItem.bottom} target="_blank">Bottom</a>
+                  </div>
+                  </div>
+                
+                
+                
+                ))}
                 <div>Order Total: ${orderItem.cart.cartTotalAmount}.00</div>
                 <div>
                   Address: {orderItem.address.line1} {orderItem.address.line2}{" "}
